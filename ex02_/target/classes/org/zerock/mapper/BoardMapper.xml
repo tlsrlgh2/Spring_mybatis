@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.mapper.BoardMapper">
+		<!-- select id= "인터페이스 의 메소드 이름으로 지정해줘야한다" resultType="호출한 메소드의 타입에 대한 경로를 지정해줘야한다 "  -->
+		<select id="getList" resultType="org.zerock.domain.boardVo">
+			select * from tbl_board
+		</select>
+		
+		<!-- insert 같은경우에는 resulttype을 설정해주지 않아도 된다. -->
+		<insert id="insert">
+			insert into tbl_board (bno, title, content, writer)
+			values(SEQ_BOARD.nextval,#{title},#{content},#{writer})
+		</insert>
+		
+		<insert id="insertSelectkey">
+			<!-- selectkey는 몇번의 bno로 들어갈지를 확인후 후처리 작업으로 insert문에 해당 bno를 던저준다 -->
+			<selectKey order="BEFORE" keyProperty="bno" resultType="long">
+				select SEQ_BOARD.nextval from dual
+			</selectKey>
+		
+			insert into tbl_board (bno, title, content, writer)
+			values(#{bno},#{title},#{content},#{writer})
+		</insert>
+		
+		<select id="read" resultType="org.zerock.domain.boardVo">
+			select * from tbl_board where bno = #{bno}
+		</select>
+		
+		<delete id="delete">
+			delete from tbl_board where bno = #{bno}
+		</delete>
+		
+		<update id="upload">
+			update tbl_board
+			set title = #{title}, content = #{content}, writer = #{writer}, updatedate = sysdate
+			where bno = #{bno}
+			
+		</update>
+		
+		<select id="testcode" resultType="org.zerock.domain.boardVo">
+			select * from tbl_board where bno = 2
+		</select>
+		
+		<select id="testcode2" resultType="org.zerock.domain.boardVo">
+			select * from tbl_board where bno = 3
+		</select>
+</mapper>
