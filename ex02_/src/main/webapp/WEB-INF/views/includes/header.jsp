@@ -1,8 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+
 <!DOCTYPE html>
 <html lang="en">
 
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#dataTables-example').DataTable({
+				responsive: true
+			});
+		$(".sidebar-nav")
+			.attr("class","sidebar-nav navbar-collapse collapse")
+			.attr("aria-expanded",'false')
+			.attr("systle","height:1px");
+		});
+	</script>
 <head>
 
     <meta charset="utf-8">

@@ -79,4 +79,6 @@ public class boardMapperTests {
 		
 		log.info("count : " + boardMapper.upload(vo));		
 	}
+	
+	
 }

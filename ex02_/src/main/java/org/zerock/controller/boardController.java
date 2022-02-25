@@ -29,6 +29,11 @@ public class boardController {
 		model.addAttribute("list", service.getlList());
 		
 	}
+	@GetMapping("/register")
+	public void registerGet() {
+		
+	}
+	
 	
 	@PostMapping("/register")
 	public String register(boardVo vo, RedirectAttributes rttr) {
@@ -60,6 +65,14 @@ public class boardController {
 		
 		model.addAttribute("testcode2", service.testcode2());
 	}
+	
+	@GetMapping("/get")
+	public void get(@RequestParam("bno")long bno, Model model) {
+		
+		model.addAttribute("board", service.get(bno));
+		
+	}
+	
 	
 	@PostMapping("/modify")
 	public String modify(boardVo vo, RedirectAttributes rttr) {
