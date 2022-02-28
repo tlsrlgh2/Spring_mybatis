@@ -27,7 +27,7 @@ public class boardController {
 	/*
 	 * @GetMapping("/list") public void list(Model model) {
 	 * 
-	 * log.info("list..... 리스트 조회시작");
+	 * log.info("list..... 리스트 조회시작dddddd");
 	 * 
 	 * model.addAttribute("list", service.getList());
 	 * 
