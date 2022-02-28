@@ -29,7 +29,7 @@ public class boardServiceTests {
 	@Test
 	public void testGetlist() {
 		
-		service.getlList().forEach(board -> log.info(board));
+		service.getList().forEach(board -> log.info(board));
 	}
 	
 	@Test

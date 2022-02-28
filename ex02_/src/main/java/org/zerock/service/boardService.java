@@ -3,6 +3,7 @@ package org.zerock.service;
 import java.util.List;
 
 import org.zerock.domain.boardVo;
+import org.zerock.domain.criteria;
 
 public interface boardService {
 
@@ -14,10 +15,12 @@ public interface boardService {
 	
 	int remove(Long bno);
 	
-	List<boardVo> getlList();
+	List<boardVo> getList();
 	
 	List<boardVo> testcode();
 	
 	List<boardVo> testcode2();
+	
+	List<boardVo> getList(criteria cri);
 	
 }

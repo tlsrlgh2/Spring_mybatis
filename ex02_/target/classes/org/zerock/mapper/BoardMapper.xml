@@ -6,7 +6,7 @@
 <mapper namespace="org.zerock.mapper.BoardMapper">
 		<!-- select id= "인터페이스 의 메소드 이름으로 지정해줘야한다" resultType="호출한 메소드의 타입에 대한 경로를 지정해줘야한다 "  -->
 		<select id="getList" resultType="org.zerock.domain.boardVo">
-			select * from tbl_board
+			select * from tbl_board order by bno
 		</select>
 		
 		<!-- insert 같은경우에는 resulttype을 설정해주지 않아도 된다. -->
@@ -46,5 +46,17 @@
 		
 		<select id="testcode2" resultType="org.zerock.domain.boardVo">
 			select * from tbl_board where bno = 3
+		</select>
+		
+		<select id="getListWithPaging" resultType="org.zerock.domain.boardVo">
+			<!-- mybatis에서 부등호 같은걸 사용할경우 ![CDATA[]] 를 사용해줘야한다  -->
+			<![CDATA[
+			select * from 
+			(select /*+ INDEX_DESC(tbl_board pk_board)*/ rownum rn, bno, title, writer,regdate,updatedate
+			from tbl_board
+			where bno>0 and rownum > 0 and rownum <=(#{pageNum}*#{amount})
+			)
+			where rn > (#{pageNum}-1) * #{amount}
+			]]>
 		</select>
 </mapper>

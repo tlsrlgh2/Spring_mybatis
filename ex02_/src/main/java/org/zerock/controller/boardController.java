@@ -3,11 +3,14 @@ package org.zerock.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.boardVo;
+import org.zerock.domain.criteria;
+import org.zerock.domain.pageDTO;
 import org.zerock.service.boardService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,14 +24,28 @@ public class boardController {
 	
 	private final boardService service;
 	
+	/*
+	 * @GetMapping("/list") public void list(Model model) {
+	 * 
+	 * log.info("list..... 리스트 조회시작");
+	 * 
+	 * model.addAttribute("list", service.getList());
+	 * 
+	 * }
+	 */
+	
 	@GetMapping("/list")
-	public void list(Model model) {
+	public void list(criteria cri, Model model) {
 		
-		log.info("list.....");
+		log.info("-----------test");
+		log.info(cri);
+		log.info("list..... 리스트 조회시작");
 		
-		model.addAttribute("list", service.getlList());
+		model.addAttribute("list", service.getList(cri));
+		model.addAttribute("pageMaker", new pageDTO(cri, 123));
 		
 	}
+	
 	@GetMapping("/register")
 	public void registerGet() {
 		
@@ -66,8 +83,8 @@ public class boardController {
 		model.addAttribute("testcode2", service.testcode2());
 	}
 	
-	@GetMapping("/get")
-	public void get(@RequestParam("bno")long bno, Model model) {
+	@GetMapping({"/get", "/modify"})
+	public void get(@RequestParam("bno")long bno,@ModelAttribute("cri") criteria cri , Model model) {
 		
 		model.addAttribute("board", service.get(bno));
 		

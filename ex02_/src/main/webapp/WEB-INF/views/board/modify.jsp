@@ -5,7 +5,7 @@
 <%@include file="../includes/header.jsp" %>
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Board Read</h1>
+                    <h1 class="page-header">Board Modify/Remove</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -14,17 +14,18 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Board Read
+                            Board Modify/Remove
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
+                        	<form>
                         		<div class="form-group">
 	                                <label>bno</label>
 	                                <input class="form-control" name="bno" readonly="readonly" value="<c:out value="${board.bno}"/>">
                                 </div>
                    				<div class="form-group">
 	                                <label>Title</label>
-	                                <input class="form-control" name="title" readonly="readonly" value="<c:out value="${board.title}"/>">
+	                                <input class="form-control" name="title" value="<c:out value="${board.title}"/>">
                                 </div>
                                 <div class="form-group">
 	                                <label>Content</label>
@@ -36,36 +37,10 @@
 	                                <label>Writer</label>
 	                                <input class="form-control" name="writer" value="<c:out value="${board.writer}"/>">
                                 </div>	
-								<form id="actionForm" action="/board/list" method="get">
-									<input type="hidden" name="pageNum" value="${cri.pageNum}"> 
-									<input type="hidden" name="amount" value="${cri.amount}">
-									<input type="hidden" name="bno" value="${board.bno}">
-								</form>
-                                <button type="button" class="btn btn-default listBtn">
-                                	<a href="/board/list">list</a>
-                                </button>
-                                <button type="button" class="btn btn-default modBtn">
-                                	<a href="/board/modify?bno=<c:out value="${board.bno}"/>">Modify/delete</a>
-                               	</button>
-                               	<script>
-                               		var actionForm = $("#actionForm");
-                               	
-                               		$(".listBtn").click(function(e) {
-										e.preventDefault();
-										actionForm.find("input[name='bno']").remove();
-										actionForm.submit();
-										console.log(find);
-										
-									});
-									
-									$(".modBtn").click(function(e) {
-										e.preventDefault();
-										actionForm.attr("action","/board/modify");
-										actionForm.submit();
-										
-									});
-                               	
-                               	</script>
+                                <button class="btn btn-default" data-oper="modify">Modify</button>
+                                <button class="btn btn-danger" data-oper="remove">Remove</button>
+                                <button class="btn btn-info" data-oper="list">List</button>
+                             </form>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -73,4 +48,35 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
+            
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+
+$(document).ready(function() {
+	
+	var formObj = $("form");
+	
+	$('.btn').click(function(e) {
+		e.preventDefault();
+		
+		var operation = $(this).data("oper");
+	
+		console.log(operation);
+		
+		if(operation === "list") {
+			self.location = "/board/list";
+		} else if(operation === "remove") {
+				//formObj.attr("action","/board/remove"); form태그에 action 값이 /board/remove로 변경된다
+			formObj.attr("action","/board/remove")
+			.attr("method","post");
+			formObj.submit();
+		}else if(operation === "modify") {
+				//formObj.attr("action","/board/remove"); form태그에 action 값이 /board/remove로 변경된다
+			formObj.attr("action","/board/modify")
+			.attr("method","post");
+			formObj.submit();
+		}
+	})
+})
+</script>
 <%@include file="../includes/footer.jsp" %>
