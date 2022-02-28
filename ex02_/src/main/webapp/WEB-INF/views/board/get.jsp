@@ -64,7 +64,7 @@
 										actionForm.submit();
 										
 									});
-                               		//dg
+                               		//dㅏg
                                	</script>
                         </div>
                         <!-- /.panel-body -->
