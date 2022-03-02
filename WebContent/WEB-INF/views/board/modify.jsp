@@ -19,6 +19,8 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                         	<form>
+                        		<input type="hidden" name="pageNum" value="${cri.pageNum}">
+                        		<input type="hidden" name="amount" value="${cri.amount}">
                         		<div class="form-group">
 	                                <label>bno</label>
 	                                <input class="form-control" name="bno" readonly="readonly" value="<c:out value="${board.bno}"/>">
@@ -29,9 +31,7 @@
                                 </div>
                                 <div class="form-group">
 	                                <label>Content</label>
-	                                <textarea class="form-control" rows="5" cols="50" name="content">
-	                                	<c:out value="${board.content}"/>
-	                                </textarea>
+	                                <textarea class="form-control" rows="5" cols="50" name="content"><c:out value="${board.content}"/></textarea>
                                 </div>	
                                  <div class="form-group">
 	                                <label>Writer</label>
@@ -64,7 +64,11 @@ $(document).ready(function() {
 		console.log(operation);
 		
 		if(operation === "list") {
-			self.location = "/board/list";
+			/* self.location = "/board/list"; */
+            formObj.attr("action", "/board/list")
+                .attr("method", "post");
+           formObj.submit();
+
 		} else if(operation === "remove") {
 				//formObj.attr("action","/board/remove"); form태그에 action 값이 /board/remove로 변경된다
 			formObj.attr("action","/board/remove")

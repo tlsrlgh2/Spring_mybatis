@@ -51,6 +51,20 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				<form id="searchForm" action="/board/list" method="get">
+					<select name="type">
+						<option value=""${pageMaker.cri.type == null? "selected":""}>---</option>
+						<option value="T" ${pageMaker.cri.type eq 'T'? "selected":""}>제목</option>
+						<option value="C" ${pageMaker.cri.type eq 'C'? "selected":""}>내용</option>
+						<option value="W" ${pageMaker.cri.type eq 'W'? "selected":""}>작성자</option>
+						<option value="TC" ${pageMaker.cri.type eq 'TC'? "selected":""}>제목+내용</option>
+						<option value="TCW" ${pageMaker.cri.type eq 'TCW'? "selected":""}>제목+내용+작성자</option>
+					</select>
+					<input type="text" name="keyword" value="${pageMaker.cri.keyword }">
+					<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
+					<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+					<button class="btn btn-default">search</button>
+				</form>
 				<h3>${pageMaker}</h3>
 				<div class="pull-right">
 					<ul class="pagination">
@@ -81,6 +95,8 @@
 				<form id="actionForm" action="/board/list" method="get">
 					<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}"> 
 					<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+					<input type="hidden" name="type" value="${pageMaker.cri.type}">
+					<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
 				</form>
 				<!-- /.table-responsive -->
 			</div>
@@ -167,6 +183,18 @@ $(document).ready(
 			actionForm.attr("action","/board/get");
 			actionForm.submit();
 		});
+
+		var searchForm = $("#searchForm");
+
+		$("#searchForm button").on("click",function(e) {
+			e.preventDefault();
+			console.log(".......클릭");
+
+			searchForm.find("input[name='pageNum']").val(1);
+
+			searchForm.submit();
+		})
+
 	});
 </script>
 

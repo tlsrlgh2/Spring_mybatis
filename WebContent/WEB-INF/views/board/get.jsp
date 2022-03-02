@@ -28,9 +28,7 @@
                                 </div>
                                 <div class="form-group">
 	                                <label>Content</label>
-	                                <textarea class="form-control" rows="5" cols="50" name="content">
-	                                	<c:out value="${board.content}"/>
-	                                </textarea>
+	                                <textarea class="form-control" rows="5" cols="50" name="content"><c:out value="${board.content}"/></textarea>
                                 </div>	
                                  <div class="form-group">
 	                                <label>Writer</label>
@@ -40,6 +38,8 @@
 									<input type="hidden" name="pageNum" value="${cri.pageNum}"> 
 									<input type="hidden" name="amount" value="${cri.amount}">
 									<input type="hidden" name="bno" value="${board.bno}">
+									<input type="hidden" name="type" value="${cri.type}">
+									<input type="hidden" name="keyword" value="${cri.keyword}">
 								</form>
                                 <button type="button" class="btn btn-default listBtn">
                                 	<a href="/board/list">list</a>
@@ -57,7 +57,6 @@
 										console.log(find);
 										
 									});
-									
 									$(".modBtn").click(function(e) {
 										e.preventDefault();
 										actionForm.attr("action","/board/modify");

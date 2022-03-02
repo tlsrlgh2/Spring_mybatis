@@ -4,6 +4,23 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.zerock.mapper.BoardMapper">
+
+	<sql id="criteria">
+		<trim prefix="(" suffix=") and">	<!-- 배열에서는 item만 필요하다 -->
+			<foreach collection="typeArr" item="type" separator="or">
+				<if test="type == 'T'.toString()">
+					title like '%'|| #{keyword} ||'%'
+				</if>
+				<if test="type == 'C'.toString()">
+					content like '%'|| #{keyword} ||'%'
+				</if>
+				<if test="type == 'W'.toString()">
+					writer like '%'|| #{keyword} ||'%'
+				</if>
+			</foreach>
+		</trim>
+	</sql>
+
 		<!-- select id= "인터페이스 의 메소드 이름으로 지정해줘야한다" resultType="호출한 메소드의 타입에 대한 경로를 지정해줘야한다 "  -->
 		<select id="getList" resultType="org.zerock.domain.boardVo">
 			select * from tbl_board order by bno
@@ -54,9 +71,31 @@
 			select * from 
 			(select /*+ INDEX_DESC(tbl_board pk_board)*/ rownum rn, bno, title, writer,regdate,updatedate
 			from tbl_board
-			where bno>0 and rownum > 0 and rownum <=(#{pageNum}*#{amount})
+			where 
+			]]>
+			 
+			 <include refid="criteria"></include>
+			 
+			<![CDATA[
+			bno>0 and rownum > 0 and rownum <=(#{pageNum}*#{amount})
 			)
 			where rn > (#{pageNum}-1) * #{amount}
+			]]>
+		</select>
+		
+		<select id="getTotalCount" resultType="int">
+			select count(bno) from tbl_board where <include refid="criteria"></include> bno > 0
+		</select>
+		
+		<select id="searchTest" resultType="org.zerock.domain.boardVo">
+			<![CDATA[
+			select * from tbl_board
+			
+			where
+			]]>
+			
+			<![CDATA[
+			rownum < 10
 			]]>
 		</select>
 </mapper>
